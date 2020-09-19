@@ -1,0 +1,274 @@
+<p style="height:30px;background-color:#f1f1f1; padding:5px; text-align:center; font-weight:bold; font-size:16px; border-top:1px solid #d3d3d3; border-left:1px solid #d3d3d3; border-right:1px solid #d3d3d3; ">工单信息</p>
+<div class="EditContentTable" style="line-height:22px;">
+    <div style="width:auto; float:left; padding:3px;">
+        <div style="width:65px; line-height:24px; float:left; text-align:right; overflow:hidden;white-space: nowrap; padding:0px 5px 0px 0px;" title="工单号">工单号：</div>
+        <div style=" float:left; overflow:hidden;padding:0px 0px 0px 0px;" title="工单号">
+            <input type="text" class="TextBox " value="" id="OrderNO" />
+
+            <span id="bnView" style="font-size: 12px; font-weight:bold; cursor: pointer; ">
+                <img src="../Content/images/search.png" class="imgText" style="margin-right:5px;margin-left:20px;" />
+                <span class="imgText">查询</span>
+            </span>
+
+
+        </div>
+    </div>
+    <div style="width:auto;float:right;margin-right:50px;height:30px;">
+        <div style="float:right;" title="上传">
+            <input type="file" Id="zipId" name="zipId" style="margin-left:400px;width:300px;height:30px;" title="" />
+            <input type='button' id="upbutton" name="upbutton" onclick="Uploadfile()" value='上传' style="font-size:15px;width:100px;height:30px;float:right;border:ridge; background-color:gray;font-weight:400;" />
+            <input type="text" name="hiddenOrderNo" id="hiddenOrderNo" style="display:none;" />
+        </div>
+  
+    </div>
+   
+</div>
+<input type="hidden" value="" id="hdnPararms" name="hdnPararms" />
+<input type="hidden" value="" id="hdnPararmValue" name="hdnPararmValue" />
+<input type="hidden" value="" id="hdnOperation" name="hdnOperation" />
+<input type="hidden" value="" id="hdnFileName" name="hdnFileName" />
+<div class="clear5">
+</div>
+<div id="ReportList">
+    <div class="ListTableEmptyDataRow">请输入查询条件查看报表</div>
+</div>
+<script type="text/javascript">
+    $("#bnView").click(function () {
+        GetGridData();
+    });
+
+    //获取报表数据
+    function GetGridData() {
+        var conds = "";//模糊查询
+        var conds2 = "";//全字符匹配查询
+
+        var OrderNO = $("#OrderNO").val();
+        if (OrderNO !== "") {
+            conds2 += " AND OrderNO= N'" + $.trim($("#OrderNO").val()) + "'";
+            conds += " AND OrderNO LIKE N'%" + $.trim($("#OrderNO").val()) + "%'";
+        }
+
+        $("#ReportList").replaceWith("<div id=ReportList ></div>");
+
+        var grid = $("#ReportList").SktMesGrid({
+            columns: [
+                {
+                    "display": "工单号",
+                    "name": "OrderNO",
+                    "align": "left",
+                    "width": 180,
+                    "minWidth": 60
+                },
+                {
+                    "name": "ItemCode",
+                    "display": "产品编码",
+                    "align": "left",
+                    "width": 180,
+                    "minWidth": 60
+                },
+                {
+                    "name": "ItemName",
+                    "display": "产品名称",
+                    "align": "left",
+                    "width": 180,
+                    "minWidth": 60
+                },
+                {
+                    "name": "ItemSpec",
+                    "display": "产品规格",
+                    "align": "left",
+                    "width": 180,
+                    "minWidth": 60
+                },
+                {
+                    "name": "BaraName",
+                    "display": "程序包名称",
+                    "align": "left",
+                    "width": 180,
+                    "minWidth": 60
+                },
+                {
+                    "name": "BaraPath",
+                    "display": "程序包上地址",
+                    "align": "left",
+                    "width": 180,
+                    "minWidth": 60
+                },
+                {
+                    "name": "BaraTime",
+                    "display": "上传时间",
+                    "align": "left",
+                    "width": 180,
+                    "minWidth": 60
+                },
+                {
+                    "name": "Qty_to_Build",
+                    "display": "工单数量",
+                    "align": "left",
+                    "width": 180,
+                    "minWidth": 60
+                },
+                {
+                    "name": "Qty_Released",
+                    "display": "已释放数量",
+                    "align": "left",
+                    "width": 180,
+                    "minWidth": 60
+                }, {
+                    "name": "Qty_Done",
+                    "display": "已完成数量",
+                    "align": "left",
+                    "width": 180,
+                    "minWidth": 60
+                },
+                //{
+                //    key: "OrderType",
+                //    text: "订单类型"
+                //},
+                {
+                    "name": "StatusDesc",
+                    "display": "状态",
+                    "align": "left",
+                    "width": 180,
+                    "minWidth": 60
+                },
+                {
+                    "name": "R_Name",
+                    "display": "路由名称",
+                    "align": "left",
+                    "width": 180,
+                    "minWidth": 60
+                },
+                {
+                    "name": "CustomerName",
+                    "display": "客户简称",
+                    "align": "left",
+                    "width": 180,
+                    "minWidth": 60
+                },
+                {
+                    "name": "Planned_Start_Time",
+                    "display": "工单计划开始时间",
+                    "align": "left",
+                    "width": 180,
+                    "minWidth": 60
+                },
+                {
+                    "name": "Actual_Start_Date",
+                    "display": "工单实际开始时间",
+                    "align": "left",
+                    "width": 180,
+                    "minWidth": 60
+                },
+                {
+                    "name": "Planned_Completed_Date",
+                    "display": "工单计划完成时间",
+                    "align": "left",
+                    "width": 180,
+                    "minWidth": 60
+                },
+                {
+                    "name": "Actual_Completed_Date",
+                    "display": "工单实际完成时间",
+                    "align": "left",
+                    "width": 180,
+                    "minWidth": 60
+                },
+                {
+                    "name": "IsMESaddDesc",
+                    "display": "工单来源",
+                    "align": "left",
+                    "width": 180,
+                    "minWidth": 60
+                }
+
+            ],
+            width: "100%",
+            height: "98%",
+            dataAction: "TABLE",
+            dataSource: "vwBaraForOrder",
+            conditions: conds,
+            onSelectRow: function (rowData) {
+                $("#hiddenOrderNo").val(rowData.OrderNO);
+            }
+
+        });
+    }
+
+
+    //上传
+    function Uploadfile() {
+
+        debugger
+        var orderNo = $("#hiddenOrderNo").val();
+        if (orderNo == "") {
+            alert("请选择工单！");
+            return;
+        }
+        var zipUpdate = $('#zipId')[0].files[0];
+        var formData = new FormData();
+        formData.append("zipFile", zipUpdate);
+        formData.append("orderNo", orderNo);
+        console.log(formData.get("orderNo"));
+        //校验文件存在的情况是否继续上传
+        $.ajax({
+            url: 'http://192.168.72.101:8010/api/ProdForOrder/CheckFileMES',
+            type: 'POST',
+            async: true,
+            processData: false,
+            //   contentType: 'application/json',
+            contentType: false,
+            //data: JSON.stringify(formData),
+            data: formData,
+            dataType: 'JSON',
+            success: function (result) {
+                if (result) {
+                    if (confirm("文件已存在，是否覆盖上传？")) {
+                        $("[name='upbutton']").val('上传中...');
+                        UplaodData(formData);
+                    }
+                    else {
+                        return;
+                    }
+                }
+                else {
+                    $("[name='upbutton']").val('上传中...');
+                    UplaodData(formData);
+                }
+            },
+            error: function () {
+                alert("请求失败！");
+            }
+        });
+    }
+
+
+    //上传文件
+    function UplaodData(formData) {
+        $.ajax({
+            url: 'http://192.168.72.101:8010/api/ProdForOrder/UpLoadFileMES',
+            type: 'POST',
+            async: true,
+            processData: false,
+            contentType: false,
+            data: formData,
+            dataType: 'JSON',
+            success: function (result) {
+                alert(result);
+                if (result == "success") {
+                    ////重新加载表格
+                    //GridManager.refreshGrid('test', false, function (result) {
+
+                    //});
+                }
+                $("[name='upbutton']").val('上传');
+                GetGridData();
+            },
+            error: function () {
+                alert("Error", "上传失败！");
+            }
+
+        });
+    }
+
+</script>

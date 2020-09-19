@@ -1,0 +1,1014 @@
+﻿<!DOCTYPE html>
+
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+    <title></title>
+
+    <script type="text/javascript" src="../Scripts/jquery-3.3.1.js"></script>
+   
+
+    <style>
+        body {
+            border: 1px;
+            border-color: black;
+        }
+
+        #topPower {
+            height: 25px;
+            background-color: #f1f1f1;
+            padding: 5px;
+            text-align: center;
+            font-size: 18px;
+            border-top: 1px solid #d3d3d3;
+            border-left: 1px solid #d3d3d3;
+            border-right: 1px solid #d3d3d3;
+        }
+
+        #model {
+            position: absolute;
+            left: 0px;
+            top: 0px;
+            /*  background-color: transparent; */ /*transparent 透明*/
+            background: rgba(0, 0, 0, 0.4);
+            width: 100%; /*宽度设置为100%，这样才能使隐藏背景层覆盖原页面*/
+            height: 100%;
+            filter: alpha(opacity=80); /*设置透明度为60%*/
+            opacity: 0.8; /*非IE浏览器下设置透明度为60%*/
+            display: none;
+            z-Index: 1;
+        }
+
+        .white_content {
+            /*       display: none;*/
+            position: absolute;
+            top: 15%;
+            left: 15%;
+            width: 800px;
+            height: 530px;
+            padding: 10px 10px 10px 10px;
+            /* border: 2px ridge;
+            /* background-color: #4F8FD7;*/
+            z-index: 1002;
+            overflow: auto;
+        }
+
+        .form-data {
+            background-color: white;
+            width: auto;
+            height: 440px;
+            border: 2px ridge;
+            border-color: gray;
+        }
+
+        .form-top {
+            width: 100%;
+            height: 35px;
+            background-color: #4F8FD7;
+        }
+
+        #tb {
+            width: 500px;
+            height: auto;
+            margin-left: 50px;
+            margin-top: 30px;
+        }
+
+        .tr_size {
+            width: auto;
+            height: 50px;
+            margin-top: 2px;
+        }
+
+        .td_left {
+            float: left;
+            width: 100px;
+            height: 33px;
+        }
+
+        .td_right {
+            float: right;
+            width: 350px;
+            height: 33px;
+        }
+
+        .tbox {
+            width: 250px;
+            height: 30px;
+            border: solid,1px;
+            font-size: 20px;
+            margin: auto;
+            border-color: black;
+        }
+
+        #remark {
+            width: 250px;
+            height: 50px;
+            resize: none;
+            border: solid,1px;
+        }
+
+        .btn_operation {
+            margin-left: 100px;
+            margin-top: 10px;
+            align-content: center;
+            width: 500px;
+            height: 50px;
+        }
+
+        .btn_operation_c {
+            width: 70px;
+            height: 30px;
+            margin-left: 150px;
+            margin-top: 10px;
+            font-size: 20px;
+            font-weight: bold;
+            cursor: pointer;
+            display: inline;
+        }
+
+        .title-text {
+            margin-left: 40px;
+            margin-top: 5px;
+            color: #ffffff;
+            font-weight: bold;
+            font-family: Verdana, 微软雅黑,黑体, 宋体;
+            font-size: 18px;
+            width: 100px;
+            height: 30px;
+        }
+
+        .title-closed {
+            background: url(Image/icon/closed.png) no-repeat;
+            background-size: cover;
+            width: 65px;
+            height: 25px;
+            position: absolute;
+            top: 3px;
+            right: 10px;
+            border: 1px groove;
+            cursor: pointer;
+            background-color: #4F8FD7;
+            border-radius: 5px
+        }
+
+        #remark {
+            background-color: #FFFFCC;
+            border: 1px solid;
+            border-color: black;
+        }
+
+        .icon-create {
+            width: 20px;
+            height: 20px;
+            position: absolute;
+            margin-left: 100px;
+            background: url("Image/icon/Add.png")no-repeat;
+        }
+
+        .text-create {
+            height: 20px;
+            width: 60px;
+            margin-top: 7px;
+            margin-left: 105px;
+            border-right: 2px solid;
+            border-color: lightgray;
+        }
+
+        .icon-update {
+            width: 20px;
+            height: 20px;
+            position: relative;
+            top: -20px;
+            left: 210px;
+            background: url("Image/icon/edit.png")no-repeat;
+        }
+
+        .text-update {
+            height: 20px;
+            width: 60px;
+            position: relative;
+            border-right: 2px solid;
+            border-color: lightgray;
+            top: -40px;
+            left: 215px;
+        }
+
+        .icon-delete {
+            width: 20px;
+            height: 20px;
+            position: relative;
+            top: -60px;
+            left: 310px;
+            background: url("Image/icon/delete.png")no-repeat;
+        }
+
+        .text-delete {
+            height: 20px;
+            width: 60px;
+            position: relative;
+            top: -80px;
+            left: 315px;
+        }
+
+        /*  修改table的宽度，#win的width, .dialogWin的width*/
+
+
+        #win {
+            width: 620px;
+            height: 510px;
+            position: absolute;
+            left: 20%;
+            top: 20%;
+            display: none;
+            z-index: 1002;
+            overflow: auto;
+        }
+
+        .dialogWin {
+            width: 620px;
+            height: 90%;
+        }
+
+        #tbwin {
+            border-radius: 5px;
+            background-color: #4F8FD7;
+            width: 600px;
+            border: none;
+        }
+
+        td {
+            border: none;
+        }
+
+        /* --顶部样式---*/
+        .dlg_header {
+            height: 30px;
+            border: none;
+        }
+        /*左边边角*/
+        .dlg_header_nw {
+            height: 28px;
+            width: 6px;
+            border: none;
+            border-radius: 5px /*添加角度*/
+        }
+
+        .dlg_header_n {
+            border-left: 1px solid;
+            border-left-color: white;
+        }
+
+        .dlg_header_nc {
+            width: 584px;
+            height: auto;
+        }
+
+        .dig_title.icon {
+            height: 20px;
+            width: 20px;
+            position: absolute;
+            top: 5px;
+            left: 25px;
+        }
+
+        .dlg_title.text {
+            height: 20px;
+            width: 150px;
+            position: absolute;
+            top: 5px;
+            left: 55px;
+            font-size: 15px;
+            font-weight: 400;
+            color: white;
+        }
+
+        .dlg_title.closed {
+            height: 19px;
+            width: 45px;
+            position: absolute;
+            top: 5px;
+            right: 30px;
+        }
+
+        #btnClosed {
+            height: 19px;
+            width: 45px;
+            border: none;
+            background: url("Image/icon/chrome.png")no-repeat;
+        }
+        /*右边边角*/
+        .dlg_ne {
+            height: 28px;
+            width: 6px;
+            border: none;
+            border-radius: 5px /*添加角度*/
+        }
+
+        /* ---中间样式----*/
+        .dlg_min {
+            height: 416px;
+            border: none;
+        }
+        /*左边边框*/
+        .dlg_body_nw {
+            height: auto;
+            width: 6px;
+            border: none;
+        }
+        /*中间主体*/
+        .dlg_body_n {
+            width: auto;
+            height: 414px;
+            border-radius: 5px;
+            background-color: white;
+        }
+
+            .dlg_body_n.power {
+                width: 500px;
+                height: 30px;
+                border: none;
+            }
+
+        .power_btn.save {
+            width: 20px;
+            height: 20px;
+            position: relative;
+            top: 5px;
+            left: 30px;
+            background: url("Image/icon/save.png") no-repeat;
+        }
+
+        .power.save {
+            width: 50px;
+            height: 20px;
+            position: relative;
+            top: -18px;
+            left: 55px;
+            font-size: 16px;
+        }
+
+        .dlg_body_n.form {
+            width: auto;
+            height: 380px;
+            border-top: 1px ridge;
+        }
+
+        /*左边边框*/
+        .dlg_body_ne {
+            height: auto;
+            width: 6px;
+            border: none;
+        }
+
+        /*--底部样式--*/
+        .dlg_footer {
+            height: auto;
+            border: none;
+        }
+        /*右边边角*/
+        .dlg_foot_nw {
+            height: 6px;
+            width: 6px;
+            border: none;
+            border-radius: 5px /*添加角度*/
+        }
+        /*中间边框*/
+        .dlg_foot_n {
+            width: 584px;
+            height: auto;
+        }
+        /*右边边角*/
+        .dlg_foot_ne {
+            height: 6px;
+            width: 6px;
+            border: none;
+            border-radius: 5px /*添加角度*/
+        }
+
+        #btn_save {
+            font-size: 16px;
+        }
+
+       /* 隐藏界面中绘制的统计图形*/
+        #divLoading {
+        display:none;
+        }
+    </style>
+</head>
+
+
+<body onkeypress="if (event.keyCode == 13) { enterDown()} else { return; }">
+    <div id="topPower">
+        <div>
+            <div class="icon-create"></div>
+            <div class="text-create" id="text-create">
+                <a id="btn_create" class="btn_create" href="#" onclick="OpenCreateWin()">新增</a>
+            </div>
+
+            <div class="icon-update"></div>
+            <div class="text-update" id="text-update">
+                <a id="btn_update" class="btn_update" href="#" onclick="OpenUpdateWin()">修改</a>
+            </div>
+
+            <div class="icon-delete"></div>
+            <div class="text-delete" id="text-delete">
+                <a id="btn_delete" class="btn_delete" href="#" onclick="deleteById()">删除</a>
+            </div>
+        </div>
+
+    </div>
+    <!--操作区域-->
+
+    <div id="win">
+        <div id="dialogWin" class="dialogWin">
+            <table id="tbwin" cellspacing="0" cellpadding="0" border="1">
+                <tbody>
+                    <tr class="dlg_header">
+                        <td>
+                            <div class="dlg_header_nw"></div>
+                        </td>
+                        <td class="dlg_header_n">
+                            <div class="dlg_header_nc">
+                                <div class="dlg_title">
+                                    <div class="dig_title icon"> </div>
+                                    <div class="dlg_title text">弹出窗口标题</div>
+                                    <div class="dlg_title closed" id="icon_closed">
+                                        <input type="button" id="btnClosed" onclick="Closed()" />
+                                    </div>
+                                </div>
+
+
+                            </div>
+
+                        </td>
+                        <td>
+                            <div class="dlg_ne"></div>
+                        </td>
+                    </tr>
+
+
+                    <tr class="dlg_min">
+                        <td>
+                            <div class="dlg_body_nw"></div>
+                        </td>
+                        <td>
+
+                            <div class="dlg_body_n">
+
+                                <div class="dlg_body_n power">
+                                    <div class="power_btn save"></div>
+                                    <div id="div_save" class="power save">
+                                        <a id="btn_save" class="btn_save" href="#" onclick="Save()">保存</a>
+                                    </div>
+                                </div>
+
+
+                                <div class="dlg_body_n form">
+
+                                    <div class="form-table">
+                                        <table id="tb">
+                                            <tr class="tr_size">
+                                                <td class="td_left">
+                                                    产品编码：
+                                                </td>
+                                                <td class="td_right">
+                                                    <input type="text" id="productCode" class="tbox" />
+                                                </td>
+                                            </tr>
+                                            <tr class="tr_size">
+                                                <td class="td_left">
+                                                    组装编码：
+                                                </td>
+                                                <td class="td_right">
+                                                    <input type="text" id="assemblyCode" class="tbox" />
+                                                </td>
+                                            </tr>
+                                            <tr class="tr_size">
+                                                <td class="td_left">
+                                                    插件编码：
+                                                </td>
+                                                <td class="td_right">
+                                                    <input type="text" id="dipCode" class="tbox" />
+                                                </td>
+                                            </tr>
+                                            <tr class="tr_size">
+                                                <td class="td_left">
+                                                    贴片编码：
+                                                </td>
+                                                <td class="td_right">
+                                                    <input type="text" id="SmtCode" class="tbox" />
+                                                </td>
+                                            </tr>
+                                            <tr class="tr_size">
+                                                <td class="td_left">
+                                                    SN前缀：
+                                                </td>
+                                                <td class="td_right">
+                                                    <input type="text" id="snPrefix" class="tbox" />
+                                                </td>
+                                            </tr>
+                                            <tr class="tr_size">
+                                                <td class="td_left">备注：</td>
+                                                <td class="td_right">
+                                                    <textarea id="remark"></textarea>
+                                                </td>
+                                            </tr>
+
+                                        </table>
+
+                                    </div>
+
+
+                                </div>
+
+                            </div>
+                        </td>
+                        <td>
+                            <div class="dlg_body_ne">
+                            </div>
+                        </td>
+                    </tr>
+
+                    <tr class="dlg_footer">
+                        <td>
+                            <div class="dlg_foot_nw">
+
+                            </div>
+                        </td>
+                        <td>
+                            <div class="dlg_foot_n">
+
+                            </div>
+                        </td>
+                        <td>
+                            <div class="dlg_foot_ne">
+
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+        </div>
+    </div>
+
+    <div id="model">
+
+    </div>
+
+    <!--搜索区域-->
+    <div class="EditContentTable" style="line-height:22px;margin-top:20px;">
+        <div style="width:auto;   float:left; padding:3px;">
+            <div style="width:65px; line-height:24px; float:left; text-align:right; overflow:hidden;white-space: nowrap; padding:0px 5px 0px 0px;" title="SMT编码">SMT编码：</div>
+            <div style=" float:left; overflow:hidden;padding:0px 0px 0px 0px;" title="SMT编码">
+                <input type="text" class="TextBox " value="" id="smt" />
+
+                <span id="bnView" style="font-size: 12px; font-weight:bold; cursor: pointer; ">
+                    <img src="../Content/images/search.png" class="imgText" style="margin-right:5px;margin-left:20px;" />
+                    <span class="imgText" id="imgText">查询</span>
+                </span>
+            </div>
+        </div>
+        <div style="margin-left:25%; width:830px;height:55px;">
+            <div style="margin-left:50px;width:200px;height:50px;align-content:center;display:inline;">
+                <label>已选SMT编码:</label>
+                <input type="text" class="TextBox " value="" id="OrderCheck" />
+            </div>
+        </div>
+
+    </div>
+
+    <!--列表展示区域-->
+    <div style="margin-top:30px;">
+        <div id="ReportList">
+            <div class="ListTableEmptyDataRow">请输入查询条件查看报表</div>
+        </div>
+    </div>
+
+</body>
+<script type="text/javascript">
+    var flag = 0;
+    var Id;
+    //编辑页面遮罩层
+    var model = document.getElementById("model");
+    var win = document.getElementById("win");
+    //显示工单号文本框禁止输入
+    var OrderNum = document.getElementById("OrderCheck");
+    OrderNum.disabled = "disabled";
+    OrderNum.style.backgroundColor = "#FFFFCC";
+
+    //页面初始化时加载按钮样式
+    //保存按钮
+    var doc_btnsave = document.getElementById("btn_save");
+    doc_btnsave.style.color = "black";
+    doc_btnsave.style.textDecoration = "none";
+
+
+    //关闭按钮
+    var doc_btnclosed = document.getElementById("btnClosed");
+    doc_btnclosed.style.backgroundPosition = "-15px 0px";
+
+
+
+    //input适用keydown触发enter事件，适用keypress时无效
+    $("#smt").keydown(function (e) {
+        if (e.keyCode === 13) {
+            //点击回车要执行的事件
+            GetGridData();
+        }
+    });
+
+
+    //页面ENTER键查询
+    function enterDown() {
+        GetGridData();
+    }
+
+    $("#bnView").click(function () {
+        GetGridData();
+    });
+
+
+    //加载列表
+    function GetGridData() {
+        var conds = "";//模糊查询
+        var codesmt = $("#smt").val();
+        if (codesmt !== "") {
+            conds += " AND DIPCode LIKE N'%" + $.trim(codesmt) + "%'";
+        }
+
+        $("#ReportList").replaceWith("<div id=ReportList ></div>");
+
+        var grid = $("#ReportList").SktMesGrid({
+            columns: [
+                {
+                    "name": "ProductCode",
+                    "display": "产品编码",
+                    "align": "left",
+                    "width": 150,
+                    "minWidth": 60
+                },
+                {
+                    "name": "AssemblyCode",
+                    "display": "组装编码",
+                    "align": "left",
+                    "width": 150,
+                    "minWidth": 60
+                },
+                {
+                    "name": "DIPCode",
+                    "display": "插件编码",
+                    "align": "left",
+                    "width": 150,
+                    "minWidth": 60
+                },
+                {
+                    "name": "SMTCode",
+                    "display": "贴片编码",
+                    "align": "left",
+                    "width": 150,
+                    "minWidth": 60
+                },
+                {
+                    "name": "SNPrefix",
+                    "display": " SN前缀",
+                    "align": "left",
+                    "width": 150,
+                    "minWidth": 60
+                },
+                {
+                    "name": "Remark",
+                    "display": "备注",
+                    "align": "left",
+                    "width": 180,
+                    "minWidth": 60
+                },
+                {
+                    "name": "CreateTime",
+                    "display": "创建时间",
+                    "align": "left",
+                    "width": 150,
+                    "minWidth": 60
+                },
+                {
+                    "name": "ModifyTime",
+                    "display": "修改时间",
+                    "align": "left",
+                    "width": 150,
+                    "minWidth": 60
+                }
+            ],
+            width: "100%",
+            height: "98%",
+            dataAction: "TABLE",
+            dataSource: "vwTranRepaiList",
+            conditions: conds,
+            multiboxonly: true,
+            onSelectRow: function (rowData) {
+                $("#OrderCheck").val(rowData.SMTCode);
+                Id = rowData.ID;
+
+            }
+
+        });
+    }
+
+
+
+    //保存
+    function Save() {
+
+        //获取表单数据
+        var productCode = $("#productCode").val();
+        var assemblyCode = $("#assemblyCode").val();
+        var dipCode = $("#dipCode").val();
+        var SmtCode = $("#SmtCode").val();
+        var snPrefix = $("#snPrefix").val();
+        var remark = $("#remark").val();
+
+        //验证数据
+        if (productCode == "" || productCode == undefined) {
+            alert("工单号不能为空!")
+            return;
+        }
+
+        if (assemblyCode == "" || assemblyCode == undefined) {
+            alert("工单编码规则不能为空！")
+            return;
+        }
+        if (dipCode == "" || dipCode == undefined) {
+            alert("工单号不能为空!")
+            return;
+        }
+
+        if (SmtCode == "" || SmtCode == undefined) {
+            alert("工单编码规则不能为空！")
+            return;
+        }
+        if (snPrefix == "" || snPrefix == undefined) {
+            alert("工单编码规则不能为空！")
+            return;
+        }
+
+        if (validation(productCode)) {
+            alert("禁止输入单双引号等字符");
+            return;
+        }
+        if (validation(assemblyCode)) {
+            alert("禁止输入单双引号等字符");
+            return;
+        }
+        if (validation(dipCode)) {
+            alert("禁止输入单双引号等字符");
+            return;
+        }
+        if (validation(SmtCode)) {
+            alert("禁止输入单双引号等字符");
+            return;
+        }
+        if (validation(snPrefix)) {
+            alert("禁止输入单双引号等字符");
+            return;
+        }
+        if (validation(remark)) {
+            alert("禁止输入单双引号等字符");
+            return;
+        }
+
+        var entity = {
+            ID: Id,
+            ProductCode: productCode,
+            AssemblyCode: assemblyCode,
+            DIPCode: dipCode,
+            SMTCode: SmtCode,
+            SNPrefix: snPrefix,
+            Remark: remark
+        }
+        if (flag == 1) {
+            SaveCreate(entity);
+        }
+        else if (flag == 2) {
+            SaveUpdate(entity);
+        }
+        else {
+            return;
+        }
+
+    }
+
+
+    //关闭编辑页面
+    function Closed() {
+        clear();
+        flag = 0;
+        model.style.display = 'none';
+        win.style.display = 'none';
+    }
+
+    //新增保存
+    function SaveCreate(entity) {
+
+        $.ajax({
+            url: 'http://192.168.10.116:8010/api/Repair/Create',
+            type: 'POST',
+            data: entity,
+            success: function (result) {
+                if (result != "success") {
+
+                    alert(result);
+                }
+                else {
+                    flag = 0;
+                    model.style.display = 'none';
+                    win.style.display = 'none';
+
+                    GetGridData();
+                    alert("保存成功！");
+                }
+            },
+
+            error: function () {
+
+                alert("请求失败！")
+            }
+
+        });
+    }
+
+    //编辑保存
+    function SaveUpdate(entity) {
+        $.ajax({
+            url: 'http://192.168.10.116:8010/api/Repair/Update',
+            type: 'POST',
+            data: entity,
+            success: function (result) {
+                if (result != "success") {
+
+                    alert(result);
+                }
+                else {
+                    flag = 0;
+                    model.style.display = 'none';
+                    win.style.display = 'none';
+
+                    GetGridData();
+                    alert("修改成功！");
+                }
+            },
+            error: function () {
+
+                alert("请求失败！");
+            }
+        });
+
+
+    }
+
+
+    //删除
+    function deleteById() {
+        if (Id == undefined || Id == 0) {
+            alert("请选择数据！");
+            return;
+        }
+
+        if (confirm("确定删除所选数据？")) {
+            $.ajax({
+                url: 'http://192.168.10.116:8010/api/Repair/DeleteById?Id=' + Id,
+                type: 'POST',
+                success: function (result) {
+                    if (result != "success") {
+                        alert(result);
+                    }
+                    else {
+                        GetGridData();
+                        alert("删除成功！");
+                    }
+                },
+                error: function () {
+                    alert("请求失败");
+                }
+            });
+        }
+        else {
+            return;
+        }
+    }
+
+
+    //清除文本框中的值
+    function clear() {
+        $("#productCode").val("");
+        $("#assemblyCode").val("");
+        $("#dipCode").val("");
+        $("#SmtCode").val("");
+        $("#snPrefix").val("");
+        $("#remark").val("");
+    }
+
+    //新增--标签
+    function OpenCreateWin() {
+        clear();
+        //Id = 0;
+        flag = 1;
+        model.style.display = 'block';
+        win.style.display = 'block';
+    }
+
+
+    //修改--标签
+    function OpenUpdateWin() {
+
+        clear();
+        if (Id == undefined || Id == 0) {
+            alert("请先选择数据！");
+            return;
+        }
+
+
+        //数据回填
+        $.ajax({
+            url: 'http://192.168.10.116:8010/api/Repair/GetDataById?Id=' + Id,
+            type: 'POST',
+            anysc: true,
+            success: function (result) {
+                if (result.returnMessage) {
+                    $("#productCode").val(result.ProductCode);
+                    $("#assemblyCode").val(result.AssemblyCode);
+                    $("#dipCode").val(result.DIPCode);
+                    $("#SmtCode").val(result.SMTCode);
+                    $("#snPrefix").val(result.SNPrefix);
+                    $("#remark").val(result.Remark);
+                    flag = 2;
+                    model.style.display = 'block';
+                    win.style.display = 'block';
+                }
+            },
+            error: function () {
+                alert("请求失败！");
+            }
+        });
+    }
+
+    //’‘    “”    ''     ""
+      //这是前端验证字符串中是否包含单双引号
+    function validation(str) {
+        str = str.trim();
+        if (str.indexOf("\’") >= 0) {
+            return true;
+        } 
+
+        if (str.indexOf("\‘") >= 0) {
+            return true;
+        }
+
+
+        if (str.indexOf("\“") >= 0) {
+            return true;
+        }
+        if (str.indexOf("\”") >= 0) {
+            return true;
+        }
+
+        if (str.indexOf("\'") >= 0) {
+            return true;
+        }
+        if (str.indexOf("\"") >= 0) {
+            return true;
+        }
+
+        return false;
+    }
+               
+                
+
+    //保存按钮，鼠标移入移出改变样式
+    $("#div_save").mouseover(function () {
+        doc_btnsave.style.textDecoration = "";
+        doc_btnsave.style.color = "blue";
+    });
+    $("#div_save").mouseout(function () {
+        doc_btnsave.style.textDecoration = "none";
+        doc_btnsave.style.color = "black";
+    });
+
+
+    //关闭按钮，鼠标移入移出事件
+    $("#icon_closed").mouseover(function () {
+        doc_btnclosed.style.backgroundPosition = "-15px -19px";
+    })
+    $("#icon_closed").mouseout(function () {
+        doc_btnclosed.style.backgroundPosition = "-15px 0px";
+    });
+
+</script>
+
+
+
+</html>

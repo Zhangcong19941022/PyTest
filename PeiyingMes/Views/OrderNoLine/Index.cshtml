@@ -1,0 +1,83 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <link rel="stylesheet" type="text/css" href="~/Scripts/GridManager/css/gm.css">
+    <link rel="stylesheet" type="text/css" href="~/Scripts/GridManager/css/common.css">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <script type="text/javascript" src="~/Scripts/GridManager/js/gm.js"></script>
+    <script type="text/javascript" src="~/Scripts/jquery-3.3.1.js"></script>
+    <title>工单列表</title>
+</head>
+<body>
+    @*<section class="search-area">
+            <div class="sa-ele">
+                <label class="se-title">标题:</label>
+                <input class="se-con" name="title" />
+            </div>
+            <div class="sa-ele">
+                <label class="se-title">博文分类:</label>
+                <select class="se-con" name="type">
+                    <option value="-1">请选择</option>
+                    通过js增加
+                </select>
+            </div>
+            <div class="sa-ele">
+                <label class="se-title">内容:</label>
+                <input class="se-con" name="content" />
+            </div>
+            <div class="sa-ele">
+                <button class="search-action">搜索</button>
+                <button class="reset-action">重置</button>
+            </div>
+        </section>*@
+
+    <div id="search">
+        <section class="search-area">
+            <div class="sa-ele">
+                <label class="se-title">工单号</label>
+                <input class="se-con" name="orderNo" />
+            </div>
+            @*<div class="sa-ele">
+            <label class="se-title">工单类型</label>
+            <select class="se-con" name="orderType">
+                <option value="-1">所有</option>
+            </select>
+        </div>
+         <div class="sa-ele">
+             <label class="se-title">工单来源</label>
+             <select class="se-con" name="orderSource">
+                 <option value="-1">所有</option>
+             </select>
+         </div>
+         <div class="sa-ele">
+             <label class="se-title">产品编码</label>
+             <input class="se-con" name="ItemCode" />
+         </div>*@
+            <div class="sa-ele">
+
+                <button class="search-action">搜索</button>
+                <button class="reset-action">重置</button>
+
+                <input type="file" Id="zipId" name="zipId" style="margin-left:400px;width:300px;height:30px;" />
+                <input type='button' id="upbutton" name="upbutton" onclick="Uploadfile()" value='上传' style="width:100px;height:35px;color:black;font-size:20px;" />
+                <input type="text" name="hiddenValue" style="display:none;" />
+
+                <a href="/OrderNoLine/OrderDetails" plain="true" style="font-size:15px;margin-left:70px;text-decoration:none;">详情页</a>
+            </div>
+        </section>
+    </div>
+  
+    <div id="order">
+        <section class="grid-main">
+            <table></table>
+        </section>
+
+    </div>
+    <script type="text/javascript" src="~/Scripts/JS/OrderNoLine/Index.js"></script>
+</body>
+</html>

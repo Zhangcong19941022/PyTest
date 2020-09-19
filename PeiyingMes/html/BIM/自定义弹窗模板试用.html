@@ -1,0 +1,467 @@
+﻿
+<!DOCTYPE html>
+
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+    <title></title>
+
+    <script type="text/javascript" src="../Scripts/jquery-3.3.1.js"></script>
+
+
+    <style type="text/css">
+        body {
+            overflow: hidden;
+        }
+        /* 弹窗样式*/
+        #model {
+            width: auto;
+            height: auto;
+            position: absolute;
+            /*background-color: transparent;*/ /*  transparent 透明*/
+            background: rgba(0, 0, 0, 0.4);
+            width: 100%; /*宽度设置为100%，这样才能使隐藏背景层覆盖原页面*/
+            height: 100%;
+            filter: alpha(opacity=80); /*设置透明度为60%*/
+            opacity: 0.8; /*非IE浏览器下设置透明度为60%*/
+            display: none;
+            z-Index: 1;
+        }
+
+        #win_dialog {
+            width: auto;
+            height: auto;
+            position: absolute;
+            left: 20%;
+            top: 20%;
+            z-index: 1002;
+            overflow: auto;
+            display: none;
+        }
+
+        #win {
+            border: none;
+            padding: 10px;
+        }
+
+        #tb_body {
+            background: #4F8FD7;
+            border-radius: 5px /*添加角度*/
+        }
+
+        .t {
+            height: 25px;
+        }
+
+            .t.left, .t.right {
+                width: 3px;
+            }
+
+        .m.mid {
+            background: white;
+        }
+
+        .b {
+            height: 3px;
+        }
+
+        .t.title {
+            width: auto;
+            height: 22px;
+            margin-left: 25px;
+        }
+
+        #title_icon {
+            width: 20px;
+            height: 16px;
+            margin: 5px 0px 0px -10px;
+            background: url(../Image/icon/dialog.png) no-repeat;
+        }
+
+        #title_text {
+            position: absolute;
+            top: 15px;
+            left: 55px;
+            font-size: 15px;
+            font-weight: 400;
+            color: white;
+        }
+
+        #title_closed {
+            height: 19px;
+            width: 45px;
+            float: right;
+            margin-top: -20px;
+            margin-right: 10px;
+        }
+
+        #btnClosed {
+            height: 19px;
+            width: 45px;
+            border: none;
+            background: url(../Image/icon/chrome.png)no-repeat;
+        }
+
+        .save {
+            width: auto;
+            height: 25px;
+            border-bottom: 1px solid;
+            border-color: gainsboro;
+        }
+
+        #save_icon {
+            height: 18px;
+            width: 18px;
+            margin-top: 5px;
+            margin-left: 5px;
+            background: url(../Image/icon/save.png) no-repeat;
+        }
+
+        #save_text {
+            height: 20px;
+            width: 50px;
+            position: absolute;
+            top: 45px;
+            left: 45px;
+        }
+
+        /* 弹窗样式*/
+
+        /*主界面样式*/
+        #zc_body {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+        /*隐藏自动绘制的图形，弊端会将canvas全部隐藏掉*/
+        canvas {
+            display: none;
+        }
+
+        .c-head {
+            border-bottom: 1px solid #d3d3d3;
+            height: 25px;
+            width: auto;
+            padding: 3px;
+            background-color: #ffffff;
+        }
+
+        .h-pw {
+            width: 60px;
+            height: 20px;
+            border-left: 1px solid;
+            border-color: lightgray;
+            float: left;
+            margin-left: 2px;
+        }
+
+        #h-pw1 {
+            margin-left: 10px;
+            border: none;
+        }
+
+        #pw-icon1 {
+            float: left;
+            margin: 2px;
+            background: url("../Image/icon/Add.png") no-repeat;
+            width: 16px;
+            height: 16px;
+        }
+
+        #pw-txt1 {
+            float: left;
+            margin: 2px 0px 0px 1px;
+            font-size: 12px;
+        }
+
+        #pw-icon2 {
+            float: left;
+            margin: 2px;
+            background: url("../Image/icon/Add.png") no-repeat;
+            width: 16px;
+            height: 16px;
+        }
+
+        #pw-txt2 {
+            float: left;
+            margin: 2px 0px 0px 1px;
+            font-size: 12px;
+        }
+
+        #pw-icon3 {
+            float: left;
+            margin: 2px;
+            background: url("../Image/icon/Add.png") no-repeat;
+            width: 16px;
+            height: 16px;
+        }
+
+        #pw-txt3 {
+            float: left;
+            margin: 2px 0px 0px 1px;
+            font-size: 12px;
+        }
+
+        #pw-icon4 {
+            float: left;
+            margin: 2px;
+            background: url("../Image/icon/Add.png") no-repeat;
+            width: 16px;
+            height: 16px;
+        }
+
+        #pw-txt4 {
+            float: left;
+            margin: 2px 0px 0px 1px;
+            font-size: 12px;
+        }
+
+
+        .c-middle {
+            border: 1px solid;
+            border-color: red;
+            margin: 5px;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="model">
+
+    </div>
+    <div id="win_dialog">
+        <!--弹出窗口-->
+        <div id="win">
+            <table id="tb_body">
+                <tbody>
+                    <tr>
+                        <td class="t left"></td>
+                        <td class="t mid">
+                            <div class="t title">
+                                <div id="title_icon">
+
+                                </div>
+                                <div id="title_text">
+                                    标题
+                                </div>
+                                <div id="title_closed">
+                                    <input type="button" id="btnClosed" onclick="Closed()" />
+                                </div>
+                            </div>
+                        </td>
+                        <td class="t right"></td>
+                    </tr>
+                    <tr>
+                        <td class="m left"></td>
+                        <td class="m mid" id="m_mid">
+                            <div id="power_win">
+                                <div class="save">
+                                    <div id="save_icon">
+                                    </div>
+                                    <div id="save_text">
+                                        <a id="btn_save" class="btn_save" href="#" onclick="Save()">保存</a>
+                                    </div>
+                                </div>
+                                <div id="form_Data">
+                                    <!--正文-->
+
+                                </div>
+                            </div>
+                        </td>
+                        <td class="m right"></td>
+                    </tr>
+                    <tr><td class="b left"></td> <td class="b mid"></td> <td class="b right"></td></tr>
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!--主界面-->
+    <div id="zc_body">
+        <div class="c-head">
+            <div class="h-pw" id="h-pw1">
+                <div id="pw-icon1"></div>
+                <div id="pw-txt1" class="pw-txt">
+                    <a id="btn_edit" class="pw-value" href="#" onclick="aa()">编辑</a>
+                </div>
+            </div>
+
+            <div class="h-pw" id="h-pw2">
+                <div id="pw-icon2"></div>
+                <div id="pw-txt2" class="pw-txt">
+                    <a id="btn_edit1" class="pw-value" href="#" onclick="aa()">编辑</a>
+                </div>
+            </div>
+
+            <div class="h-pw" id="h-pw3">
+                <div id="pw-icon3"></div>
+                <div id="pw-txt3" class="pw-txt">
+                    <a id="btn_edit2" class="pw-value" href="#" onclick="aa()">编辑</a>
+                </div>
+            </div>
+
+            <div class="h-pw" id="h-pw4">
+                <div id="pw-icon4"></div>
+                <div id="pw-txt4" class="pw-txt">
+                    <a id="btn_edit3" class="pw-value" href="#" onclick="aa()">编辑</a>
+                </div>
+            </div>
+
+        </div>
+        <div class="c-middle"></div>
+        <div class="c-foot"></div>
+    </div>
+
+</body>
+<script type="text/javascript">
+    /**绘制弹出窗口
+   * /
+   * @param wd  宽度
+   * @param ht  高度
+   */
+    /*
+    function readyWin(wd,ht) {
+
+        var win = document.getElementById("win");
+        var model = document.getElementById("model");
+        var win_dialog = document.getElementById("win_dialog");
+        var tb = document.getElementById("tb_body");
+        //tb.style.width = "500px";
+        //tb.style.height = "300px";
+
+           model.style.width = document.body.clientWidth+"px";
+    model.style.height = document.body.clientHeight+"px";
+
+        tb.style.width = wd;
+        tb.style.height = ht;
+
+        var h = $('#tb_body').height();
+        var w = $('#tb_body').width();
+
+        var f_data = document.getElementById("form_Data");
+        var p_win = document.getElementById("power_win");
+
+        win_dialog.style.height = (h + 50) + "px";
+        win_dialog.style.width = (w+50) + "px";
+
+        win.style.height = (h+10) + "px";
+        win.style.width = (w) + "px";
+
+        p_win.style.height = (h -40) + "px";
+        p_win.style.width = (w - 20) + "px";
+        p_win.style.margin = "0px 2px 2px 2px";
+
+        f_data.style.width = ($("#power_win").width() - 6) + "px";
+        f_data.style.height = ($("#power_win").height() - 35) + "px";
+        f_data.style.margin = "1px";
+
+        model.style.display = 'block';
+        win_dialog.style.display = 'block';
+    }
+    */
+    /**设置弹窗的尺寸--开始**/
+    var model = document.getElementById("model");
+    var win_dialog = document.getElementById("win_dialog");
+
+    var tb = document.getElementById("tb_body");
+    tb.style.width = "500px";
+    tb.style.height = "300px";
+
+    var h = $('#tb_body').height();
+    var w = $('#tb_body').width();
+
+    win_dialog.style.height = (h + 50) + "px";
+    win_dialog.style.width = (w + 50) + "px";
+
+    var win = document.getElementById("win");
+    win.style.height = (h + 10) + "px";
+    win.style.width = (w) + "px";
+
+    var p_win = document.getElementById("power_win");
+    p_win.style.height = (h - 40) + "px";
+    p_win.style.width = (w - 20) + "px";
+    p_win.style.margin = "0px 2px 2px 2px";
+
+    var f_data = document.getElementById("form_Data");
+    f_data.style.width = ($("#power_win").width() - 6) + "px";
+    f_data.style.height = ($("#power_win").height() - 35) + "px";
+    f_data.style.margin = "1px";
+    /**设置弹窗的尺寸--结束**/
+
+
+    //关闭按钮
+    var doc_btnclosed = document.getElementById("btnClosed");
+    doc_btnclosed.style.backgroundPosition = "-15px 0px";
+
+    //关闭按钮，鼠标移入移出事件
+    $("#title_closed").mouseover(function () {
+        doc_btnclosed.style.backgroundPosition = "-15px -19px";
+    })
+    $("#title_closed").mouseout(function () {
+        doc_btnclosed.style.backgroundPosition = "-15px 0px";
+    });
+
+    var doc_btnsave = document.getElementById("btn_save");
+    doc_btnsave.style.color = "black";
+    doc_btnsave.style.textDecoration = "none";
+    //保存按钮，鼠标移入移出改变样式
+    $("#save_text").mouseover(function () {
+        doc_btnsave.style.textDecoration = "";
+        doc_btnsave.style.color = "blue";
+    });
+    $("#save_text").mouseout(function () {
+        doc_btnsave.style.textDecoration = "none";
+        doc_btnsave.style.color = "black";
+    });
+
+    //关闭编辑页面
+    function Closed() {
+        model.style.display = 'none';
+        win_dialog.style.display = 'none';
+    }
+
+    //弹窗上的保存方法入口
+    function Save() {
+        alert("1");
+    }
+
+
+    function aa() {
+        model.style.display = 'block';
+        win_dialog.style.display = 'block';
+    }
+
+    $(".pw-value").each(function () {
+        $(this)[0].style.color = "blue";
+        $(this)[0].style.textDecoration = "none";
+    })
+
+    /**功能按钮鼠标移入移出改变样式**/
+    $(".pw-txt").each(function () {
+        //移入
+        $(this).mouseover(function (e) {
+            e.target.style.color = "red";
+            e.target.style.textDecoration = "";
+
+        });
+        //移出
+        $(this).mouseout(function (e) {
+            e.target.style.color = "blue";
+            e.target.style.textDecoration = "none";
+        });
+    })
+
+
+
+
+
+
+</script>
+
+</html>

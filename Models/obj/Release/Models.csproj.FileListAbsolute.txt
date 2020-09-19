@@ -1,0 +1,6 @@
+D:\工作文件\PeiyingMes\Models\bin\Release\Models.dll
+D:\工作文件\PeiyingMes\Models\bin\Release\Models.pdb
+D:\工作文件\PeiyingMes\Models\obj\Release\Models.csproj.CoreCompileInputs.cache
+D:\工作文件\PeiyingMes\Models\obj\Release\Models.dll
+D:\工作文件\PeiyingMes\Models\obj\Release\Models.pdb
+D:\工作文件\PeiyingMes\Models\obj\Release\Models.csprojAssemblyReference.cache

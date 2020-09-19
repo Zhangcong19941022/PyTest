@@ -1,0 +1,231 @@
+﻿<sdpui>
+
+    <div class="client-center">
+        <!--采集信息入口-->
+        <div id="scancenter" class="scan-center">
+            <table cellpadding="0" cellspacing="0" border="0" width="100%">
+                <tr>
+                    <td align="left">
+                        <span class="scan-center-title" id="labscancentertitle">
+
+                            <span id="lblScanType">
+                                请扫描SN条码
+                            </span>
+                        </span>&nbsp;&nbsp;&nbsp;&nbsp;<div id="messageBox">
+                        </div>
+                    </td>
+                    <td align="right" style="padding-right: 20px;">
+                        <input type="checkbox" id="cbxforceuppercase" value="yes" checked />
+                        强制大写
+                    </td>
+                </tr>
+                <tr>
+                    <td align="left" colspan="2">
+                        <input type="text" id="txtSN" class="scan-center-sn" />
+                    </td>
+                </tr>
+                <tr>
+                    <td align="left">
+                        <table>
+                            <tr>
+                                <td>
+                                    <span class="scan-center-title">
+                                        上一工位：
+                                    </span>
+                                </td>
+                                <td>
+                                    <div class="dropdown-station" id="laststationfirst">
+                                    </div>
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                    <td align="right">
+                        <table>
+                            <tr>
+                                <td>
+                                    <span class="scan-center-title">
+                                        下一工位：
+                                    </span>
+                                </td>
+                                <td>
+                                    <div class="dropdown-station" id="nextstationfirst">
+                                    </div>
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <!--数据分析统计展示及操作区-->
+        <div id="datastatistic" class="data-statistic">
+            <table cellpadding="0" cellspacing="0" border="0" width="99%">
+                <tr>
+                    <td valign="top" style="width: 100%">
+                        <div class="dds-panel">
+                            <div class="leftmenu-new-header">
+                                采集明细表
+                            </div>
+                            <table cellpadding="0" cellspacing="0" border="0" class="ListTable">
+                                <thead>
+                                    <tr class="ListTableHeader">
+                                        <th style="width: 100px;">
+                                            序号
+                                        </th>
+                                        <th style="width: 300px;">
+                                            序列号
+                                        </th>
+                                        <th style="width: 100px;">
+                                            状态
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody id="collectionlist">
+                                </tbody>
+                            </table>
+                        </div>
+                    </td>
+
+                </tr>
+            </table>
+        </div>
+        <!--实时信息输出-->
+        <div id="activeinfo" class="active-info">
+            <textarea id="activeinfoarea" class="active-info-area" readonly>
+                
+            </textarea>
+        </div>
+    </div>
+    <script language="javascript" type="text/javascript">
+        var DIPCode;
+
+        $(document).ready(function () {
+            //投入过站必须选择工单后才可以进行扫描动作
+            $("#txtSN").attr("disabled", "disabled");
+            SelectProOrder();
+            //加载按钮
+            setTimeout(
+                function () {
+                    loadClientButton('ChangeOrder_ProCollectionUI');
+                },
+                10
+            );
+        });
+
+        /**
+        *选择工单
+        */
+        function SelectProOrder() {
+            chooseFlag = 1;
+            var searchCondition = "1=1"; // "Status=1";
+            dialog({ title: "选择窗口", src: "/LeanMESTest/Framework/ChoosePage.aspx?PageId=44&CallBackFunc=getChangeOrderValue&PageCondition= " + searchCondition + "&Multiple=false&rnd=" + Math.random(), width: 600, height: 300 });
+        }
+
+        /**
+        *返回值
+        */
+        function getChangeOrderValue(list) {
+            if (chooseFlag == 1) {
+                //---选择工单后动作：1、路由获取；2、相关动态信息获取；3、根据当前工序及路由获取前后工序信息并回显
+                $("#hdnCurrProOrderId").val(list[0][0]);
+
+                DIPCode = list[0][2];
+                debugger
+                //1、获取路由
+                var routeId = SKT.LeanMES.Web.AjaxServices.AjaxClientConfig.GetRouteIdByProOrderId(list[0][0]);
+                if (routeId.error != null) {
+                    alert(routeId.error.Message);
+                    return false;
+                }
+                var routeId = routeId.value;
+
+                if (routeId === "-1") {
+                    //获取路由失败
+                    alert("Error:" + "工单或者是产品没有绑定路由信息，无法创建！");
+                    return false;
+                } else {
+
+                    //获取路由成功
+                    $("#hdnCurrRouteId").val(routeId);
+                    $("#txtSN").removeAttr("disabled");
+                }
+                //2、相关动态信息获取
+                refreshProInfoByProOrderId(list[0][0]);
+
+                //3、根据当前工序及路由获取前后工序信息并回显
+                stationRefresh();
+
+                //end、重新绘制窗口
+                setContentHeight();
+                setLeftMenuHeight();
+                setActiveInfoHeight();
+
+
+            }
+            chooseFlag = 0;
+            //焦点
+            setTimeout(
+                function () {
+                    $("#txtSN").focus();
+                },
+                10
+            );
+        }
+
+        /**
+        *扫描触发事件
+        */
+        function afterScan() {
+
+            var prodOrderId = ($("#hdnCurrProOrderId").val());
+            var scanSN = $.trim($("#txtSN").val());
+            var resourceId = $("#hdnCurrResourceId").val();
+            var stationId = $("#hdnCurrStationId").val();
+
+            if (DIPCode == "" || DIPCode== undefined)
+            {
+                alert("未指定转换的工单");
+                return;
+            }
+
+            if (scanSN == "" || scanSN == undefined)
+            {
+                alert("请扫描SN");
+                return;
+            }
+
+            var entity = {};
+            entity.SN = scanSN;
+            entity.DIPCode = DIPCode;
+            debugger
+            //转工单验证编码规则
+            var isRules = SKT.LeanMES.Web.AjaxServices.AjaxSDP.ExecUDFProc("uspCheckTranCodeRules", JSON.stringify(entity));
+            if (isRules.error != null) {
+                showAreaMessge(scanSN + '：' + isRules.error.Message, "messageRed");
+                $("#txtSN").val("").focus();
+                return false;
+            }
+
+
+            //验证当前SN是否已为路由完成状态，与当前工单生产的产品是否一致
+            //转变SN的工单信息，路由状态信息
+            var ajax = SKT.LeanMES.Web.AjaxServices.AjaxInput.ChangeOrder(scanSN, prodOrderId, stationId, resourceId);
+            if (ajax.error != null) {
+               
+                //alert(ajax.error.Message);
+                updateCollectionList(scanSN, 'NG');
+                showAreaMessge(scanSN + '：' + ajax.error.Message, "messageRed");
+                $("#txtSN").val("");
+                $("#txtSN").focus();
+                return false;
+            }
+            updateCollectionList(scanSN, 'OK');
+            showAreaMessge(scanSN + '：转工单成功！', "messageGreen");
+            refreshProInfoBySN(scanSN);
+            $("#txtSN").val("");
+            $("#txtSN").focus();
+        }
+    </script>
+
+</sdpui>

@@ -1,0 +1,325 @@
+﻿@{
+    Layout = null;
+}
+<!DOCTYPE html>
+
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+    <title></title>
+
+    <script type="text/javascript" src="~/Scripts/jquery-3.3.1.js"></script>
+    <script type="text/javascript" src="~/Scripts/jquery-3.3.1.min.js"></script>
+    <script type="text/javascript" src="~/Scripts/jquery.cookie.js"></script>
+    <script type="text/javascript" src="~/Scripts/jquery.base64.js"></script>
+
+    <style type="text/css">
+        /*  修改table的宽度，#win的width, .dialogWin的width*/
+        table {
+            border-radius: 5px;
+            background-color: #4F8FD7;
+            width: 600px;
+        }
+
+        td {
+            border: none;
+        }
+
+        #win {
+            width: 620px;
+            height: 510px;
+            position: absolute;
+            margin-top: 5%;
+            margin-left: 20%;
+        }
+
+        .dialogWin {
+            width: 620px;
+            height: 90%;
+        }
+
+        /* --顶部样式---*/
+        .dlg_header {
+            height: 30px;
+            border: none;
+        }
+        /*左边边角*/
+        .dlg_header_nw {
+            height: 28px;
+            width: 6px;
+            border: none;
+            border-radius: 5px /*添加角度*/
+        }
+
+        .dlg_header_n {
+            border-left: 1px solid;
+            border-left-color: white;
+        }
+
+        .dlg_header_nc {
+            width: 584px;
+            height: auto;
+        }
+
+        .dig_title.icon {
+            height: 20px;
+            width: 20px;
+            position: absolute;
+            top: 5px;
+            left: 25px;
+        }
+
+        .dlg_title.text {
+            height: 20px;
+            width: 150px;
+            position: absolute;
+            top: 5px;
+            left: 55px;
+            font-size: 15px;
+            font-weight: 400;
+            color: white;
+        }
+
+        .dlg_title.closed {
+            height: 19px;
+            width: 45px;
+            position: absolute;
+            top: 5px;
+            right: 30px;
+        }
+
+        #btnClosed {
+            height: 19px;
+            width: 45px;
+            border: none;
+            background: url("Image/chrome.png")no-repeat;
+        }
+        /*右边边角*/
+        .dlg_ne {
+            height: 28px;
+            width: 6px;
+            border: none;
+            border-radius: 5px /*添加角度*/
+        }
+
+        /* ---中间样式----*/
+        .dlg_min {
+            height: 416px;
+            border: none;
+        }
+        /*左边边框*/
+        .dlg_body_nw {
+            height: auto;
+            width: 6px;
+            border: none;
+        }
+        /*中间主体*/
+        .dlg_body_n {
+            width: auto;
+            height: 414px;
+            border: 1px groove;
+            border-color: gray;
+            border-radius: 5px;
+            background-color: white;
+        }
+
+            .dlg_body_n.power {
+                width: 500px;
+                height: 30px;
+                border: none;
+            }
+
+        .power_btn.save {
+            width: 20px;
+            height: 20px;
+            position: relative;
+            top: 5px;
+            left: 30px;
+            background: url("Image/save.png") no-repeat;
+        }
+
+        .power.save {
+            width: 50px;
+            height: 20px;
+            position: relative;
+            top: -18px;
+            left: 55px;
+            font-size: 16px;
+        }
+
+        .dlg_body_n.form {
+            width: auto;
+            height: 380px;
+            border: none;
+            border-top: 1px ridge;
+        }
+
+        /*左边边框*/
+        .dlg_body_ne {
+            height: auto;
+            width: 6px;
+            border: none;
+        }
+
+        /*--底部样式--*/
+        .dlg_footer {
+            height: auto;
+            border: none;
+        }
+        /*右边边角*/
+        .dlg_foot_nw {
+            height: 6px;
+            width: 6px;
+            border: none;
+            border-radius: 5px /*添加角度*/
+        }
+        /*中间边框*/
+        .dlg_foot_n {
+            width: 584px;
+            height: auto;
+        }
+        /*右边边角*/
+        .dlg_foot_ne {
+            height: 6px;
+            width: 6px;
+            border: none;
+            border-radius: 5px /*添加角度*/
+        }
+
+        #btn_save {
+            font-size: 16px;
+        }
+    </style>
+</head>
+<body>
+    <div id="win">
+        <div id="dialogWin" class="dialogWin">
+
+            @*表格*@
+            <table cellspacing="0" cellpadding="0" border="1">
+                <tbody>
+                    @*顶部*@
+                    <tr class="dlg_header">
+                        <td>
+                            <div class="dlg_header_nw"></div>
+                        </td>
+                        <td class="dlg_header_n">
+                            <div class="dlg_header_nc">
+                                <div class="dlg_title">
+                                    <div class="dig_title icon"> </div>
+                                    <div class="dlg_title text">弹出窗口标题</div>
+                                    <div class="dlg_title closed" id="icon_closed">
+                                        <input type="button" id="btnClosed" onclick="Closed()" />
+                                    </div>
+                                </div>
+
+
+                            </div>
+
+                        </td>
+                        <td>
+                            <div class="dlg_ne"></div>
+                        </td>
+                    </tr>
+
+                    @*中间*@
+                    <tr class="dlg_min">
+                        <td>
+                            <div class="dlg_body_nw"></div>
+                        </td>
+                        <td>
+                            @*主体部分*@
+                            <div class="dlg_body_n">
+                                @*功能区域*@
+                                <div class="dlg_body_n power">
+                                    <div class="power_btn save"></div>
+                                    <div id="div_save" class="power save">
+                                        <a id="btn_save" class="btn_save" href="#" onclick="Save()">保存</a>
+                                    </div>
+                                </div>
+
+                                @*数据填充区域*@
+                                <div class="dlg_body_n form">
+
+
+
+
+                                </div>
+
+                            </div>
+                        </td>
+                        <td>
+                            <div class="dlg_body_ne">
+                            </div>
+                        </td>
+                    </tr>
+                    @*底部*@
+                    <tr class="dlg_footer">
+                        <td>
+                            <div class="dlg_foot_nw">
+
+                            </div>
+                        </td>
+                        <td>
+                            <div class="dlg_foot_n">
+
+                            </div>
+                        </td>
+                        <td>
+                            <div class="dlg_foot_ne">
+
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+        </div>
+    </div>
+
+
+</body>
+
+<script type="text/javascript" language="javascript">
+    function Save() {
+        alert("1");
+    }
+    //页面初始化时加载按钮样式
+    //保存按钮
+    var doc_btnsave = document.getElementById("btn_save");
+    doc_btnsave.style.color = "black";
+    doc_btnsave.style.textDecoration = "none";
+
+
+    //关闭按钮
+    var doc_btnclosed = document.getElementById("btnClosed");
+    doc_btnclosed.style.backgroundPosition="-15px 0px";
+
+
+
+    //保存按钮，鼠标移入移出改变样式
+    $("#div_save").mouseover(function () {
+        doc_btnsave.style.textDecoration = "";
+        doc_btnsave.style.color = "blue";
+    });
+    $("#div_save").mouseout(function () {
+        doc_btnsave.style.textDecoration = "none";
+        doc_btnsave.style.color = "black";
+    });
+
+
+    //关闭按钮，鼠标移入移出事件
+    $("#icon_closed").mouseover(function () {
+        doc_btnclosed.style.backgroundPosition="-15px -19px";
+    })
+    $("#icon_closed").mouseout(function () {
+        doc_btnclosed.style.backgroundPosition="-15px 0px";
+    });
+
+</script>
+</html>

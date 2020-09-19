@@ -1,0 +1,45 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title></title>
+    <script type="text/javascript" src="~/Scripts/jquery-3.3.1.js"></script>
+    <script type="text/javascript" src="~/Scripts/jquery-3.3.1.min.js"></script>
+</head>
+<body>
+    <div>
+    <p>这是一个测试页面</p>
+        <input type="button" id="btn1" value="按钮测试" onclick="test()"/>
+    </div>
+    <div id="testTable">
+    <table>
+        <thead>
+
+        </thead>
+        <tbody id="ProdForOrder"></tbody>
+    </table>
+
+    </div>
+</body>
+<script type="text/javascript">
+    function test() {
+        $.ajax({
+            type: 'Get',
+            url: 'http://localhost:59962/api/ProdForOrder/GetOrder',
+            dataType:'json',
+            success: function (result) {
+                console.log(result);
+                alert(result);
+            },
+            error: function () {
+                alert("Error");
+            }
+        })
+    }
+</script>
+</html>

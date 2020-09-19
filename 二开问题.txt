@@ -1,0 +1,120 @@
+﻿远程
+192.168.72.100
+Administrator
+ABCabc
+192.168.72.101
+Administrator
+ABCabc
+
+
+视图或存储过程所对应的模块位置
+vwBaraForOrder  工单程序名上传维护    
+vw_OrderForProHistory   工单程序包记录
+
+Prod_IsSNToProgram 数据验证
+
+测试库MES地址：http://192.168.72.101/LeanMEStest 
+账号/密码：admin/fsmes
+
+外网测试库MES地址：
+http://119.146.132.59:8888/LeanMEStest/Index.aspx
+账号 admin
+密码 fsmes
+
+数据采集UI 通用执行存储过程的方法执行失败
+ var ajax = SKT.LeanMES.Web.AjaxServices.AjaxSDP.ExecUDFProc("uspUnitProcessValidation", JSON.stringify(entity)); 
+执行失败，无返回结果
+
+
+自定义报表
+使用存储过程作为数据源不成功
+返回“SKT.MES.ReportingService.Utility.DataBase.DataBaseHelper”的类型初始值设定项引发异常。
+
+
+
+物料列表查询 Common_GetPageRecords
+
+exec Common_GetPageRecords @StartRow=0,
+@MaxRows=2500,
+@TableName=N'vwProMaterialMember',
+@PrimaryKey=N'MaterialUnitId',
+@GetFields=N'[MaterialUnitId], [SerialNumber], [PartId], [ItemName], [Description], [cBarCode], [VendorCode], [BalanceQty], [Status], [StatusName], [CreateDateTime], [CreateBy],  [StorageDate],[LotCode],[Quantity], itemCode,[POrder],DateCode,ItemModel,ShelfLife,ApplyNo,CWhName,IQCOrder,MPN,WeekCode',
+@SearchConditions=N' Flag = -1 ',
+@SortExpression=N'MaterialUnitId DES
+
+物料查询视图
+vwProMaterialMember
+
+
+
+--手动
+SELECT * FROM  dbo.vwProMaterialMember  WHERE serialnumber='PYQZ20062400358'
+
+
+--自动
+SELECT * FROM  dbo.vwProMaterialMember  WHERE serialnumber='PYQZ20061800323'
+
+手动缺少字段数据
+cbarcode    手动无数据，自动有数据
+POrder      手动无数据，自动有数据
+IQCOrder    手动无数据，自动有数据
+
+ItemModel   手动有数据，自动无数据
+
+
+
+/***************************
+视图只查询flag=-1的数据
+--手动
+SELECT * FROM  dbo.vwProMaterialMember  WHERE serialnumber IN('PYQZ20062400358','PYQZ20062400342','PYQZ20062100075')
+
+
+--自动
+SELECT * FROM  dbo.vwProMaterialMember  WHERE serialnumber IN ('PYQZ20061800323','PYQZ20061800322')
+
+
+--自动
+SELECT TOP 10 * FROM  prod_materialunit  WHERE  SerialNumber='PYQZ20061800323'
+
+SELECT TOP 10 * FROM  basal_item  WHERE ItemID=335166
+
+SELECT TOP 10 * FROM  Prod_MaterialStatus  WHERE ID=0
+
+SELECT TOP 10 * FROM  Prod_MaterialUnitMember  WHERE MaterialUnitId=216722
+
+SELECT TOP 10 * FROM  Prod_Apply  WHERE ApplyId=-1
+ 
+SELECT TOP 10 * FROM  Basal_WarehouseLocation  WHERE cBarCode='01-Q01-02-03'
+
+SELECT * FROM  Basal_Warehouse WHERE WarehouseId=83
+
+
+
+
+
+--手动
+SELECT TOP 10 * FROM  prod_materialunit  WHERE  SerialNumber='PYQZ20062400358'  --物料主表
+
+SELECT TOP 10 * FROM  basal_item  WHERE ItemID=267492  --物料编码
+
+SELECT TOP 10 * FROM  Prod_MaterialStatus  WHERE ID=0  --物料状态  0-在仓库
+
+SELECT TOP 10 * FROM  Prod_MaterialUnitMember  WHERE MaterialUnitId=218940
+
+SELECT TOP 10 * FROM  Prod_Apply  WHERE ApplyId=-1  --领料申请表
+ 
+--SELECT TOP 10 * FROM  Basal_WarehouseLocation 
+
+SELECT TOP 10 * FROM  Basal_Warehouse WHERE WarehouseId=116
+
+--插入数据
+INSERT  INTO prod_materialunit (SerialNumber,PartId,Status,ApplyId,WarehouseId) VALUES('zzzz1111',267492,0,-1,116 ) 
+SELECT TOP 10 * FROM  prod_materialunit  WHERE SerialNumber='zzzz1111'
+SELECT * FROM  dbo.vwProMaterialMember  WHERE serialnumber='zzzz1111'
+
+
+
+
+
+
+

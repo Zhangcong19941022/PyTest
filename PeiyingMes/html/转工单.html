@@ -1,0 +1,503 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+    <style>
+        #model {
+            position: absolute;
+            left: 0px;
+            top: 0px;
+            background: rgba(0, 0, 0, 0.4);
+            width: 100%; /*宽度设置为100%，这样才能使隐藏背景层覆盖原页面*/
+            height: 100%;
+            filter: alpha(opacity=80); /*设置透明度为60%*/
+            opacity: 0.8; /*非IE浏览器下设置透明度为60%*/
+            display: none;
+            z-Index: 1;
+        }
+
+        .white_content {
+            display: none;
+            position: absolute;
+            top: 25%;
+            left: 25%;
+            width: 55%;
+            height: 55%;
+            padding: 20px;
+            border: 10px solid orange;
+            background-color: white;
+            z-index: 1002;
+            overflow: auto;
+        }
+
+        #tb {
+            width: 500px;
+            height: auto;
+            margin-left: 100px;
+            margin-top: 30px;
+        }
+
+        .tr_size {
+            width: auto;
+            height: 50px;
+            margin-top: 2px;
+        }
+
+        .td_left {
+            float: left;
+            width: 100px;
+            height: 33px;
+        }
+
+        .td_right {
+            float: right;
+            width: 350px;
+            height: 33px;
+        }
+
+        .tbox {
+            width: 250px;
+            height: 30px;
+            border: solid,1px;
+            font-size: 20px;
+            margin: auto;
+            border-color: black;
+        }
+
+        #remark {
+            width: 250px;
+            height: 50px;
+            resize: none;
+            border: solid,1px;
+            background-color:antiquewhite;
+        }
+
+        .btn_operation {
+            margin-left: 50px;
+            margin-top: 5px;
+            width: 400px;
+            height: 50px;
+        }
+
+        .btn_operation_c {
+            width: 70px;
+            height: 30px;
+            margin-left: 150px;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+
+<body>
+    <p style="height:30px;background-color:#f1f1f1; padding:5px; text-align:center; font-weight:bold; font-size:16px; border-top:1px solid #d3d3d3; border-left:1px solid #d3d3d3; border-right:1px solid #d3d3d3; ">转工单对照表</p>
+    <!--操作区域-->
+    <div id="hiddenCaozuo">
+
+        <div id="light" class="white_content">
+            <div>
+                <table id="tb">
+                    <tr class="tr_size">
+                        <td class="td_left">
+                            工单号：
+                        </td>
+                        <td class="td_right">
+                            <input type="text" id="orderB" class="tbox" />
+                        </td>
+                    </tr>
+                    <tr class="tr_size">
+                        <td class="td_left">
+                            工单编码：
+                        </td>
+                        <td class="td_right">
+                            <input type="text" id="codeB" class="tbox" />
+                        </td>
+                    </tr>
+                    <tr class="tr_size">
+                        <td class="td_left">
+                            转工单号：
+                        </td>
+                        <td class="td_right">
+                            <input type="text" id="orderA" class="tbox" />
+                        </td>
+                    </tr>
+                    <tr class="tr_size">
+                        <td class="td_left">
+                            转工单编码：
+                        </td>
+                        <td class="td_right">
+                            <input type="text" id="codeA" class="tbox" />
+                        </td>
+                    </tr>
+                    <tr class="tr_size">
+                        <td class="td_left">备注：</td>
+                        <td class="td_right">
+                            <!--<input type="text" id="remark" />-->
+                            <textarea id="remark"></textarea>
+                        </td>
+                    </tr>
+
+                </table>
+
+            </div>
+
+            <div class="btn_operation">
+                <span id="Save" class="btn_operation_c" style="font-size: 20px; font-weight:bold; cursor: pointer; ">
+                    <span class="imgText">保存</span>
+                </span>
+
+                <span id="Closed" class="btn_operation_c" style="font-size: 20px; font-weight:bold; cursor: pointer; ">
+                    <span class="imgText">关闭</span>
+                </span>
+
+            </div>
+        </div>
+    </div>
+
+    <div id="model">
+
+    </div>
+    <!--搜索区域-->
+    <div class="EditContentTable" style="line-height:22px;">
+        <div style="width:auto; float:left; padding:3px;">
+            <div style="width:65px; line-height:24px; float:left; text-align:right; overflow:hidden;white-space: nowrap; padding:0px 5px 0px 0px;" title="工单号">工单号：</div>
+            <div style=" float:left; overflow:hidden;padding:0px 0px 0px 0px;" title="工单号">
+                <input type="text" class="TextBox " value="" id="OrderBegin" />
+
+                <span id="bnView" style="font-size: 12px; font-weight:bold; cursor: pointer; ">
+                    <img src="../Content/images/search.png" class="imgText" style="margin-right:5px;margin-left:20px;" />
+                    <span class="imgText">查询</span>
+                </span>
+
+
+            </div>
+        </div>
+        <div style="float:right;margin-right:200px;width:200px;">
+
+            <div>
+                <!--<span id="Create" style="font-size: 12px; font-weight:bold; cursor: pointer; ">
+                    <span class="imgText">新增</span>
+                </span>
+
+                <span id="Update" style="font-size: 12px; font-weight:bold; cursor: pointer; ">
+                    <span class="imgText">修改</span>
+                </span>
+
+                <span id="Delete" style="font-size: 12px; font-weight:bold; cursor: pointer; ">
+                    <span class="imgText">删除</span>
+                </span>-->
+                <button type="button" id="Create" class="btn btn-primary" value="">新增</button>
+                <button type="button" id="Update" class="btn btn-primary" value="">修改</button>
+                <button type="button" id="Delete" class="btn btn-primary" onclick="deleteById()" value="">删除</button>
+
+            </div>
+
+        </div>
+    </div>
+
+    <!--列表展示区域-->
+    <div style="margin-top:40px;">
+        <div id="ReportList">
+            <div class="ListTableEmptyDataRow">请输入查询条件查看报表</div>
+        </div>
+    </div>
+
+
+
+
+</body>
+<script type="text/javascript">
+    var flag = 0;
+    var Id = 0;
+    var doc1 = document.getElementById("Create");
+    var doc2 = document.getElementById("Update");
+    var doc3 = document.getElementById("Delete");
+    var model = document.getElementById("model");
+    var light = document.getElementById("light");
+
+    $("#bnView").click(function () {
+        GetGridData();
+    });
+
+    function GetGridData() {
+        var conds = "";//模糊查询
+        var conds2 = "";//全字符匹配查询
+        debugger
+        var OrderNO = $("#OrderBegin").val();
+        if (OrderNO !== "") {
+            //   conds2 += " AND OrderNO= N'" + $.trim($("#OrderNO").val()) + "'";
+            conds += " AND OrderNO LIKE N'%" + $.trim(OrderNO) + "%'";
+        }
+
+        $("#ReportList").replaceWith("<div id=ReportList ></div>");
+
+        var grid = $("#ReportList").SktMesGrid({
+            columns: [
+                {
+                    "name": "OrderBegin",
+                    "display": "工单号-转工单前",
+                    "align": "left",
+                    "width": 180,
+                    "minWidth": 60
+                },
+                {
+                    "name": "CodeRuleBegin",
+                    "display": "编码-转工单前",
+                    "align": "left",
+                    "width": 180,
+                    "minWidth": 60
+                },
+                {
+                    "name": "OrderAfter",
+                    "display": "工单号-转工单后",
+                    "align": "left",
+                    "width": 180,
+                    "minWidth": 60
+                },
+                {
+                    "name": "CodeRuleAfter",
+                    "display": "编码-转工单后",
+                    "align": "left",
+                    "width": 180,
+                    "minWidth": 60
+                },
+                {
+                    "name": "CreateTime",
+                    "display": "创建时间",
+                    "align": "left",
+                    "width": 180,
+                    "minWidth": 60
+                },
+                {
+                    "name": "CreateBy",
+                    "display": "创建人",
+                    "align": "left",
+                    "width": 180,
+                    "minWidth": 60
+                },
+                {
+                    "name": "ModifyTime",
+                    "display": "修改时间",
+                    "align": "left",
+                    "width": 180,
+                    "minWidth": 60
+                },
+                {
+                    "name": "ModifyBy",
+                    "display": "修改人",
+                    "align": "left",
+                    "width": 180,
+                    "minWidth": 60
+                },
+                {
+                    "name": "Remark",
+                    "display": "备注",
+                    "align": "left",
+                    "width": 180,
+                    "minWidth": 60
+                }
+            ],
+            width: "100%",
+            height: "98%",
+            dataAction: "TABLE",
+            dataSource: "vw_ODTranCkeck",
+            conditions: conds,
+            onSelectRow: function (rowData) {
+              //  $("#hiddenOrderNo").val(rowData.OrderNO);
+                Id = rowData.ID;
+                console.log(Id);
+            }
+
+        });
+    }
+
+
+    //打开新增页面
+    $("#Create").click(function () {
+        //if (flag != 0) {
+        //    return;
+        //}
+        //按钮禁用
+        doc1.disabled = "disabled";
+        doc2.disabled = "disabled";
+        doc3.disabled = "disabled";
+        Id = 0;
+        flag = 1;
+        model.style.display = 'block';
+        light.style.display = 'block';
+        console.log(Id);
+    });
+
+    //打开编辑页面
+    $("#Update").click(function () {
+        debugger
+        //if (flag != 0) {
+        //    return;
+        //}
+        //按钮禁用
+        doc1.disabled = "disabled";
+        doc2.disabled = "disabled";
+        doc3.disabled = "disabled";
+        flag = 2;
+        model.style.display = 'block';
+        light.style.display = 'block';
+        console.log(Id);
+    })
+
+
+    //关闭编辑页面
+    $("#Closed").click(function () {
+        debugger
+        flag = 0;
+        //解除按钮禁用
+        doc1.disabled = "";
+        doc2.disabled = "";
+        doc3.disabled = "";
+        model.style.display = 'none';
+        light.style.display = 'none';
+        console.log(Id);
+    });
+
+
+    //保存
+    $("#Save").click(function () {
+        if (flag = 1) {
+            SaveCreate();
+        }
+        else if (flag = 2) {
+            SaveUpdate();
+        }
+        else {
+            return;
+        }
+        console.log(Id);
+    });
+
+
+    function SaveCreate() {
+        debugger
+        //获取表单数据
+        var orderB = $("#orderB").val();
+        var codeB = $("#codeB").val();
+        //var orderA = $("#orderA").val();
+        //var codeA= $("#codeA").val();
+        var remark = $("#remark").val();
+        //验证数据
+        if (orderB == "" || orderB == undefined) {
+            alert("工单号不能为空!")
+            return;
+        }
+
+        if (codeB == "" || codeB == undefined) {
+            alert("工单编码规则不能为空！")
+            return;
+        }
+        var entity = {
+            OrderBegin: orderB,
+            CodeRuleBegin: codeB,
+            Remark: remark
+        }
+        console.log(entity);
+        //保存
+        $.ajax({
+            url: 'http://192.168.10.116:8010/api/Tran/Create',
+            type: 'POST',
+            data: entity,
+            success: function (result) {
+                if (result != "success") {
+                    alert(result);
+                }
+                else {
+                    alert("保存成功！");
+                }
+            },
+
+            error: function () {
+                alert("请求失败！")
+            }
+
+        }, GetGridData);
+    }
+
+
+    function SaveUpdate() {
+        debugger
+
+        var orderB = $("#orderB").val();
+        var codeB = $("#codeB").val();
+        var orderA = $("#orderA").val();
+        var codeA= $("#codeA").val();
+        var remark = $("#remark").val();
+        //验证数据
+        if (orderB == "" || orderB == undefined) {
+            alert("工单号不能为空!")
+            return;
+        }
+
+        if (codeB == "" || codeB == undefined) {
+            alert("工单编码规则不能为空！")
+            return;
+        }
+        var entity = {
+            ID:Id,
+            OrderBegin: orderB,
+            CodeRuleBegin: codeB,
+            OrderAfter: orderA,
+            CodeRuleAfter: codeA,
+            Remark: remark
+        }
+        $.ajax({
+            url: 'http://192.168.10.116:8010/api/Tran/Update',
+            type: 'POST',
+            data: entity,
+            success: function (result) {
+                if (result != "success") {
+                    alert(result);
+                }
+                else {
+                    alert("修改成功！");
+                }
+            },
+            error: function () {
+                alert("请求失败！");
+            }
+        }, GetGridData);
+
+
+    }
+
+
+    function deleteById() {
+        debugger
+        if (Id == undefined) {
+            alert("请选择数据！");
+            return;
+        }
+
+        if (confirm("确定删除所选数据？")) {
+            $.ajax({
+                url: 'http://192.168.10.116:8010/api/Tran/DeleteById?Id=' + Id,
+                type: 'DELETE',
+                success: function (result) {
+                    if (result != "success") {
+                        alert(result);
+                    }
+                    else {
+                        alert("删除成功！");
+                    }
+
+                },
+                error: function () {
+                    alert("请求失败");
+                }
+            }, GetGridData);
+        }
+        else {
+            return;
+        }
+        console.log(Id);
+    }
+
+
+</script>
+</html>

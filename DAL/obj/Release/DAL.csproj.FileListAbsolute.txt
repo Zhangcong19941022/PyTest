@@ -1,0 +1,9 @@
+D:\工作文件\PeiyingMes\DAL\bin\Release\DAL.dll
+D:\工作文件\PeiyingMes\DAL\bin\Release\DAL.pdb
+D:\工作文件\PeiyingMes\DAL\bin\Release\Models.dll
+D:\工作文件\PeiyingMes\DAL\bin\Release\Models.pdb
+D:\工作文件\PeiyingMes\DAL\obj\Release\DAL.csprojAssemblyReference.cache
+D:\工作文件\PeiyingMes\DAL\obj\Release\DAL.csproj.CoreCompileInputs.cache
+D:\工作文件\PeiyingMes\DAL\obj\Release\DAL.csproj.CopyComplete
+D:\工作文件\PeiyingMes\DAL\obj\Release\DAL.dll
+D:\工作文件\PeiyingMes\DAL\obj\Release\DAL.pdb

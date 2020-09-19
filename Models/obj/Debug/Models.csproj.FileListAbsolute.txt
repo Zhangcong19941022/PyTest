@@ -1,0 +1,17 @@
+D:\工作文件\PeiyingMes\Models\bin\Debug\Models.dll
+D:\工作文件\PeiyingMes\Models\bin\Debug\Models.pdb
+D:\工作文件\PeiyingMes\Models\obj\Debug\Models.csproj.CoreCompileInputs.cache
+D:\工作文件\PeiyingMes\Models\obj\Debug\Models.dll
+D:\工作文件\PeiyingMes\Models\obj\Debug\Models.pdb
+D:\工作文件\PeiyingMes\Models\obj\Debug\Models.csprojAssemblyReference.cache
+E:\工作\程序\PeiyingMes\Models\bin\Debug\Models.dll
+E:\工作\程序\PeiyingMes\Models\bin\Debug\Models.pdb
+E:\工作\程序\PeiyingMes\Models\obj\Debug\Models.csproj.CoreCompileInputs.cache
+E:\工作\程序\PeiyingMes\Models\obj\Debug\Models.dll
+E:\工作\程序\PeiyingMes\Models\obj\Debug\Models.pdb
+E:\工作\程序-测试\PeiyingMes\Models\bin\Debug\Models.dll
+E:\工作\程序-测试\PeiyingMes\Models\bin\Debug\Models.pdb
+E:\工作\程序-测试\PeiyingMes\Models\obj\Debug\Models.csprojAssemblyReference.cache
+E:\工作\程序-测试\PeiyingMes\Models\obj\Debug\Models.csproj.CoreCompileInputs.cache
+E:\工作\程序-测试\PeiyingMes\Models\obj\Debug\Models.dll
+E:\工作\程序-测试\PeiyingMes\Models\obj\Debug\Models.pdb

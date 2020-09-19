@@ -1,0 +1,11 @@
+D:\工作文件\PeiyingMes\BLL\bin\Release\BLL.dll
+D:\工作文件\PeiyingMes\BLL\bin\Release\BLL.pdb
+D:\工作文件\PeiyingMes\BLL\bin\Release\DAL.dll
+D:\工作文件\PeiyingMes\BLL\bin\Release\Models.dll
+D:\工作文件\PeiyingMes\BLL\bin\Release\DAL.pdb
+D:\工作文件\PeiyingMes\BLL\bin\Release\Models.pdb
+D:\工作文件\PeiyingMes\BLL\obj\Release\BLL.csprojAssemblyReference.cache
+D:\工作文件\PeiyingMes\BLL\obj\Release\BLL.csproj.CoreCompileInputs.cache
+D:\工作文件\PeiyingMes\BLL\obj\Release\BLL.csproj.CopyComplete
+D:\工作文件\PeiyingMes\BLL\obj\Release\BLL.dll
+D:\工作文件\PeiyingMes\BLL\obj\Release\BLL.pdb
